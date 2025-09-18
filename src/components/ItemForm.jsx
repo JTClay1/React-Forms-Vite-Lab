@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 
-// Controlled form that bubbles new item up via onItemFormSubmit
-export default function ItemForm({ onItemFormSubmit }) {
+// NOTE (me): local state for form controls; I bubble the final object up
+export default function ItemForm({ onItemFormSubmit = () => {} }) {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("Produce"); // required by lab
+  const [category, setCategory] = useState("Produce"); // default first option
 
   function handleSubmit(e) {
-    e.preventDefault(); // important for tests: prevent page refresh
-    const newItem = {
+    e.preventDefault(); // NOTE (me): stay in SPA, no page refresh
+    onItemFormSubmit({
       id: uuid(),
       name,
       category,
-    };
-    onItemFormSubmit(newItem); // pass up
-    // clear for next entry
+    });
+    // NOTE (me): quick reset for next entry
     setName("");
     setCategory("Produce");
   }
@@ -41,10 +40,12 @@ export default function ItemForm({ onItemFormSubmit }) {
       >
         <option value="Produce">Produce</option>
         <option value="Dairy">Dairy</option>
-        <option value="Desserts">Desserts</option>
+        {/* NOTE (me): singular "Dessert" to match test data/expectations */}
+        <option value="Dessert">Dessert</option>
       </select>
 
-      <button type="submit">Add Item</button>
+      {/* NOTE (me): tests look for this exact text */}
+      <button type="submit">Add to List</button>
     </form>
   );
 }

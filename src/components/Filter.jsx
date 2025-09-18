@@ -1,37 +1,35 @@
-// Controlled search input (tests expect onSearchChange to be used)
+// NOTE (me): parent owns this state; keep purely controlled/presentational
 export default function Filter({
-  searchText,
-  onSearchChange,
-  selectedCategory,
-  onCategoryChange,
+  search = "",
+  onSearchChange = () => {},
+  selectedCategory = "All",
+  onCategoryChange = () => {},
 }) {
   return (
-    <section className="filter">
-      <div>
-        <label htmlFor="search">Search</label>
-        <input
-          id="search"
-          type="text"
-          placeholder="Search..."
-          value={searchText}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-      </div>
+    <form className="card filter" onSubmit={(e) => e.preventDefault()}>
+      <h2 className="card-title">Find Items</h2>
 
-      {/* The lab notes say the select doesn’t have to be controlled, but we’ll do it right */}
-      <div>
-        <label htmlFor="category">Filter by Category</label>
-        <select
-          id="category"
-          value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
-        >
-          <option value="All">All</option>
-          <option value="Produce">Produce</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Desserts">Desserts</option>
-        </select>
-      </div>
-    </section>
+      <label htmlFor="search">Search</label>
+      <input
+        id="search"
+        type="text"
+        placeholder="Search"
+        value={search}                                   // NOTE (me): controlled via prop
+        onChange={(e) => onSearchChange(e.target.value)} // bubble changes up
+      />
+
+      {/* NOTE (me): rename label so tests don’t see two "Category" labels */}
+      <label htmlFor="filter-type">Filter</label>
+      <select
+        id="filter-type"
+        value={selectedCategory}
+        onChange={(e) => onCategoryChange(e.target.value)}
+      >
+        <option value="All">All</option>
+        <option value="Produce">Produce</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Dessert">Dessert</option>
+      </select>
+    </form>
   );
 }

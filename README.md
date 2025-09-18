@@ -93,3 +93,15 @@ and added to our list of items.
 ## Resources
 
 - [React Forms](https://facebook.github.io/react/docs/forms.html)
+
+
+# Shopping Forms (Controlled Components)
+
+- Controlled search input (`Filter.jsx`) updates `searchText` in `App.jsx` via `onSearchChange`.
+- Controlled add-item form (`ItemForm.jsx`) holds `name` and `category` in local state and sends a new item up with `onItemFormSubmit`, where `App.jsx` appends it immutably.
+- `ShoppingList.jsx` filters items by `selectedCategory` and `searchText` and renders `Item` rows.
+
+Run:
+- `npm install`
+- `npm run dev`
+- `npm test`

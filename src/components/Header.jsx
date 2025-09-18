@@ -1,14 +1,9 @@
-import React from "react";
-
-function Header({ isDarkMode, onDarkModeClick }) {
+export default function Header() {
   return (
-    <header>
-      <h2>Shopster</h2>
-      <button onClick={onDarkModeClick}>
-        {isDarkMode ? "Dark" : "Light"} Mode
-      </button>
+    <header style={{ textAlign: "center", marginBottom: "1rem" }}>
+      <h1>🛒 Shopping Forms</h1>
+      <p>Controlled search + controlled add-item form</p>
     </header>
   );
 }
 
-export default Header;

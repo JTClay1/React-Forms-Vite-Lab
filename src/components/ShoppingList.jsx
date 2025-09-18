@@ -1,32 +1,25 @@
-import React, { useState } from "react";
-import ItemForm from "./ItemForm";
-import Filter from "./Filter";
-import Item from "./Item";
+import Item from "./Item.jsx";
 
-function ShoppingList({ items }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  function handleCategoryChange(event) {
-    setSelectedCategory(event.target.value);
-  }
+export default function ShoppingList({ items, searchText, selectedCategory }) {
+  const normalized = searchText.trim().toLowerCase();
 
   const itemsToDisplay = items.filter((item) => {
-    if (selectedCategory === "All") return true;
-
-    return item.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "All" || item.category === selectedCategory;
+    const matchesSearch =
+      normalized.length === 0 ||
+      item.name.toLowerCase().includes(normalized);
+    return matchesCategory && matchesSearch;
   });
 
   return (
-    <div className="ShoppingList">
-      <ItemForm />
-      <Filter onCategoryChange={handleCategoryChange} />
-      <ul className="Items">
-        {itemsToDisplay.map((item) => (
-          <Item key={item.id} name={item.name} category={item.category} />
-        ))}
-      </ul>
-    </div>
+    <ul className="shopping-list">
+      {itemsToDisplay.map((item) => (
+        <Item key={item.id} name={item.name} category={item.category} />
+      ))}
+      {itemsToDisplay.length === 0 && (
+        <li style={{ opacity: 0.7 }}>No items match your filters.</li>
+      )}
+    </ul>
   );
 }
-
-export default ShoppingList;
